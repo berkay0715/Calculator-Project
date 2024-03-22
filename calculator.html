@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculator</title>
+    <link rel="stylesheet" href="/Projects/calculator project/Design.CSS" />
+  </head>
+
+  <body>
+    <div class="container">
+      <input type="text" class="display" />
+
+      <div class="buttons">
+        <button class="Operator" data-value="AC">AC</button>
+        <button class="Operator" data-value="DEL">DEL</button>
+        <button class="Operator" data-value="%">%</button>
+        <button class="Operator" data-value="/">/</button>
+
+        <button class="first-row" data-value="7">7</button>
+        <button class="first-row" data-value="8">8</button>
+        <button class="first-row" data-value="9">9</button>
+        <button class="Operator" data-value="*">*</button>
+
+        <button class="second-row" data-value="4">4</button>
+        <button class="second-row" data-value="5">5</button>
+        <button class="second-row" data-value="6">6</button>
+        <button class="Operator" data-value="-">-</button>
+
+        <button class="Third-row" data-value="3">3</button>
+        <button class="Third-row" data-value="2">2</button>
+        <button class="Third-row" data-value="1">1</button>
+        <button class="Operator" data-value="+">+</button>
+
+        <button class="Forth-row" data-value="0">0</button>
+        <button class="Forth-row" data-value="00">00</button>
+        <button class="Forth-row" data-value=".">.</button>
+        <button class="Operator" data-value="=">=</button>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const display = document.querySelector(".display");
+    const buttons = document.querySelectorAll("button");
+    const specialChars = ["%", "*", "/", "-", "+", "="];
+    let output = "";
+    //Define function to calculate based on button clicked.
+    const calculate = (btnValue) => {
+      display.focus();
+      if (btnValue === "=" && output !== "") {
+        //If output has '%', replace with '/100' before evaluating.
+        output = eval(output.replace("%", "/100"));
+      } else if (btnValue === "AC") {
+        output = "";
+      } else if (btnValue === "DEL") {
+        //If DEL button is clicked, remove the last character from the output.
+        output = output.toString().slice(0, -1);
+      } else {
+        //If output is empty and button is specialChars then return
+        if (output === "" && specialChars.includes(btnValue)) return;
+        output += btnValue;
+      }
+      display.value = output;
+    };
+    //Add event listener to buttons, call calculate() on click.
+    buttons.forEach((button) => {
+      //Button click listener calls calculate() with dataset value as argument.
+      button.addEventListener("click", (e) =>
+        calculate(e.target.getAttribute("data-value"))
+      );
+    });
+  </script>
+</html>
